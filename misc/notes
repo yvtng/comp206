@@ -1,0 +1,139 @@
+//  #include is a process that happens before the program is run
+//  it is a written(verbal?) inclusion 
+//  that takes hte library and pastes it into the program
+
+#include<stdio.h>
+#include<stdlib.h>  
+
+long int factorial(long int n){
+
+    long int a=1;
+
+    //  must you declare that it is a long int?
+    //  compiler error?
+    //  does not have to  have the same modifier (I think)
+    //
+    //  potential bug, n=0?
+    //  this is actually fine because it skips the loop and returns 1
+    for(long int i=1; i<=n; i++){
+    
+        a*=i;
+    
+    }
+
+    return a;
+}
+
+//   factorial with recursion, using base case like in math
+long int f2(long int n){
+
+    if(n==0){
+    
+        return 1;
+    }
+
+    return n*factorial2(n-1);
+}
+//  Stack as we call f2(10);
+//
+//  sooo many frames...
+//  10, N; 9, (n*); 8, (n*); 7, (n*); ...; 0, (1);
+//  then it goes back and large number, say, N 
+//  ends up having to go back through the many many frames of the stack
+//
+//
+//  f2(10)
+//  10 * f2(9)
+//  10 * (9 * f2(8))
+//  10 * (9 * (8 * f2(7)))
+//  ...
+//  
+//  what actually happens when you run a program
+//
+//  call stack
+//      has
+//          - local variables
+//          - address of stack??
+//
+//
+//  takes, last item off of stack, cpu jumps back to place before
+//
+//  in this case, f2() is worse than factorial
+//  order of operation in f2() 
+//      next line of code in stack is the instruction to go back to n
+//
+//      recorde # then jump to first line of f2() all over again
+//
+//      e.g. the nested parentheses, the things in the parentheses must be done first
+//
+//  Worse for 2 reasons:
+//      - takes up more space, more memory by adding to stack
+//      - size of the stack is fixed, likely 8 megabits
+//          can make a lot of calls but can only still make a finite number of calls
+//              else may end up having stack overflow
+//
+//              be very careful making recursive algorithms, they make recursive calls
+
+int main(void){
+
+    //  stdio = standard input output
+    //      use function scanf(), reads from stdin 
+    //      converts from string into other types
+    //      
+    //      if 1 000 000 000 was taken as a string,
+    //      this is 10 bytes
+    //
+    //      when converted to an int, becomes 4 bytes
+
+    int a;  //  a local variable of the main function
+            //
+            //  if a had an initial value of 2, 
+            //  then was passed to scanf, 
+            //  ampersand &a tells scanf the memory address of a
+            //  scanf doesn't know it is 2
+
+    scanf("%d", &a);    // '&a' ampersand is a reference or "pointer" to reference var a
+                        // this allows another function to modify your local variable    
+
+    //  in C, functions must be declared before you can call them.
+    //  Therefore, functions must be placed before the main function
+    //
+    //  Compiler has some intelligence,
+    //  can infer that 12 is meant to be taken as a long int
+    //  it should be able to make this interpretation from base int to int with modifier
+    //
+    //  However, note this (ideally) will not work with something like 12.5 
+    //  this would be a float/double a totally different type
+    //      (compiler does an implicit conversion maybe,
+    //      which is why it was not working in class)
+    //
+    long int n=factorial(12);
+    
+    printf("%d", a); //  note no ampersand because it is NOT MODIFYING. 
+                    //  printf can make do by using a copy a
+                    //  a copy of a passes, like in normal functions
+                    //  %d is only for int
+                    //
+                    //  %ld is long decimal, for long int
+                    //
+                    //  ALWAYS COMPILE WITH WARNINGS ENABLED
+                    //  otherwise C will have weird things happen
+                    //
+                    //  from smaller interger type to larger
+                    //  this is a widening conversion??
+                    //  no precision (or data?) is lost
+                    //
+                    //  this is why 12 was able to be promoted to a long int
+                    //
+                    //  but the otherway around may be problematic 
+                    //
+                    //
+    printtf("%ld", n);  
+
+    return 0;
+}
+//   !!! very important concept !!!
+//   CALL STACK
+//
+//   - size has a fized size, 8 megabytes, will eventually crash
+//   - 

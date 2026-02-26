@@ -1,0 +1,9 @@
+# Ignore nested autograder repos
+**/.git/
+
+# Ignore backups & junk
+backups/
+*.tar.gz
+*.swp
+*~
+.DS_Store

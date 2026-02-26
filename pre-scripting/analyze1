@@ -1,0 +1,91 @@
+#!/bin/bash
+
+
+# best practice when passing arguments to a COMMAND you should always double quote to prevent error with spaces
+
+#adds up all numbers on stdin expect stdin with one integer per line
+# no pipe inside functions but will pipe inTO function
+# like commands, make dir follow path, etc. 
+
+#when done writing, always press esc. stop using arrow keys. break habit. 
+function sum() {
+	total=0
+	while read -r line; do
+		#total=$(( total + line ))
+		#when inside of an arithmetic substitution, no NEED to put dollar signs
+		#indentation not needed but should for readability and human comprehension
+  		
+		#amount=$(echo -E "$line" | cut -d' ' -f10)
+		
+		if [ "$amount" -eq "$amount" ] 2>/dev/null; then
+
+                        sum=$(( $sum + $amount ))
+
+                fi
+		total="$((  ))"
+	done
+
+	# 'return' in a bash function 
+	# sets the exit status of the function
+
+	echo "$total"
+}
+
+if [ "$1" = "count" ]; then
+	
+	# '..' is expanded by bash
+	for i in {0..99}; do
+		echo -n "$i "
+	done
+
+	echo ""
+
+	for (( i=0; i<100; i++ )); do
+		echo -n "$i "
+	done
+
+
+	for (( i=0; i<100; i+=2 )); do
+		echo -n "$i "
+	done
+
+	# generates RANDOM, divides by 10 and takes remainder with modulus
+	# for _ in {1..100}; do echo $(( $RANDOM % 10 )) >> numbers; done
+	# >> fileExample looks for file dir and APPENDS to file. If file does not exist, it creates the file. If the file exists, it adds to the end (like concatenation)
+
+
+elif [ "$1" = "status-report" ]; then
+
+	grep -E "GET|POST" nginx.log | cut -d' ' -f9 | sort | uniq -c
+
+elif [ "$1" = "total-transferred" ]; then
+
+	sum=0
+	
+	# use functions to get data from pipe subshell to main original program
+	# for piping command into while loop
+	#cat short.log | while read -r line; do	# 'while read -r line	# 'while read -r line''
+	
+	total="$(( cat short.log | cut -d ' ' -f 10 | sum ))"
+
+	#useful for homework 3
+
+		#because cut is done to every single line, pipe is either done to cut or cut is put into cut??
+
+		#amount=$(echo -E "$line" | cut -d' ' -f10)
+		
+		# ONLY WORKS ON NUMBERS
+		# make sure amount is an integer
+#		if [ "$amount" -eq "$amount" ] 2>/dev/null; then
+#			
+#			sum=$(( $sum + $amount ))
+#
+#		fi
+		# NO GOOD! amount=$(cut -d' ' -f10 "$line")
+
+	# line below is a compound command
+#/bin/bash: line 1: ./analyz: No such file or directory
+	#echo $sum
+	echo "$total"
+fi
+      

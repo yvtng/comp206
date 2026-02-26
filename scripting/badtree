@@ -1,0 +1,140 @@
+#!/bin/bash
+
+
+# sh for bash, opt for option, 
+shopt -s dotglob
+# bell #1
+
+#if [ -f "$1" ]; then
+#echo "You got me!"
+#else
+#echo "Not yet."
+#fi
+#
+# get in the habit of writing comments. be jovial. use colourful language when permissable. 
+# not just for other people, for you, and AI.
+
+
+# badtree: it's like 'tree', but bad
+# Arguments:
+# 	$1: the path that we should work on.
+#		
+#	$2: the indentation to use before each iteam in $1
+#w
+#	$3: depth limit. if we are deeper than this, stop. Optional.
+#
+# 	$1 is bad and a variable name would be better
+
+
+function badtree(){
+
+	local path="$1"
+	local indent="$2"
+	local depth="$3"
+	
+	if [ -z "$depth" ]; then
+			
+		# sentinel value
+		depth="-1"
+
+	fi
+
+	if [ "$depth" -eq 0 ]; then
+	
+		return # stop early, do not use exit because that would stop the whole script. You only want to stop recurrsion from going deeper.
+			#this is relative to the current call. and thus, does not need to be 2
+	fi
+
+
+
+
+	#ls "$path" | while read -r file; do
+	#done
+	# bash does not see curly braces.
+	# anything we can get with spaces between, we can use to iterate over
+	#
+	# we can use /to find things in the $path dir and then a * wildcard is used to iterate over files 
+	# not directories because it wont look into something with another slash
+	#
+	# we wrote a function but we did not call the function
+	# badtree
+	#
+	for file in "$path"/*; do 
+		
+		echo "$indent$(basename $file)"
+		
+		if [ -d "$file" ]; then
+
+			# recursion!
+			badtree "$file" "$indent  " $((depth - 1))
+
+
+			# the first time w ecall badtree, it looks like:
+			# 	badtree .. ""
+			# whten this calls badtree itself, on dir "02"
+			# 	badtree ../02 "  "
+			# that one also calls badtree, on dir "treasure-hunt"
+			# 	badtree ../02/treasure-hunt
+			#
+			#
+
+		fi
+
+	done
+
+}
+
+path="$1"
+
+shift # Removes $1 from the argument list. shifts $2 to $1, $3 to $2, etc;
+
+
+
+
+if [ -z "$path" ]; then
+
+	path="."
+
+fi
+
+while [ $# -gt 0 ]; do
+
+	case $1 in
+		-d|--depth)
+			DEPTH="$2"
+
+			shift
+			shift
+			;;
+		*)
+
+			echo "Unrecognized argument: $1"
+			shift
+			;;
+	esac
+
+done
+
+		b
+
+
+
+badtree "$path" "" "$DEPTH"
+
+# can use argument parsing. there is a very common patter in bash
+#
+#
+# how to colour text!!!
+#
+# RED='\e[31m'
+# GREEN='\e[32m'
+# BLUE='e[34m'
+# ENDCOLOR='e[0m'
+#
+# just using this won't work
+#
+# these characters are so special, echo will not settle in terminal. we need to tell echo to 
+#
+# if user doe snot like colour
+#  -nc --nocolor in case
+#  make variables into empty string

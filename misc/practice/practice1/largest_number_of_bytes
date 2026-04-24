@@ -1,0 +1,21 @@
+#!/bin/bash
+
+awk '
+$10 ~ /^[0-9]+$/ && $10 > max { max = $10 }
+END { print max+0 }
+' "$1"
+
+# maxByte=0
+# while IFS= read -r line; fo
+#
+#   bytes=$(echo "$line" | cut -d' ' -f10)
+#
+#   [[ "$byte" =~ ^[0-9]+$ ]] || continue
+#
+#   if [ "$maxByte" -lt "$byte" ]; then
+#       maxByte="$byte"
+#   fi
+#
+# done < "$1"
+#
+# echo "$maxByte"

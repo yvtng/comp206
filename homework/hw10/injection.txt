@@ -1,0 +1,8 @@
+Challenge 1: injection attack
+
+    1.  By what means are the expressions being evaluated by the server?
+        How did you find that out?
+
+    2.  What is the general shape of a malicious string that executes an arbitrary command of your choosing?
+
+    3.  What is the flag?

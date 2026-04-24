@@ -1,0 +1,5 @@
+#!/bin/bash
+
+gcc -Wall main.c -lm -o meow
+
+exit 0

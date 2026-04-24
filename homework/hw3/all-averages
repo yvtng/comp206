@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while read -r country; do
+
+	echo ""$country" $(./analyze average "$country")"
+
+done < <(cut -d',' -f4 worldcities.csv | tail -n +2 | sort -u)

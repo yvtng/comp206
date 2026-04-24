@@ -1,0 +1,10 @@
+#!/bin/bash
+
+gcc -Wall names.c -lm -o names
+gcc -Wall names2.c -lm -o names2
+if ["$?" -ne 0 ]; then
+    exit 1
+fi
+
+exit 0
+

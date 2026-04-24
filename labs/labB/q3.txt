@@ -1,0 +1,8 @@
+	
+	January 2026 Notes
+
+Git is a powerful tool for version control.
+Many developers use Git to manage their projects.
+Without Git, projects collaboration becomes difficult.
+Learning Git is an important skill.
+

@@ -1,0 +1,14 @@
+Apple:10:1.5
+Banana:20:0.75
+Orange:15:1.0
+Mango:5:2.5
+Strawberry:12:2.50
+Grape:18:2.00
+Blueberry:10:4.00
+Peach:14:2.00
+Pear:16:1.80
+Avocado:15:3.06
+Blackberry:8:4.60
+Fig:10:6.85
+Dragon Fruit:6:5.86
+Lime:20:1.00

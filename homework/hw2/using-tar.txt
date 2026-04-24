@@ -1,0 +1,19 @@
+- Q1.1: how do you use tar to create an archive?
+	You must use the tar command with -c (create), -z (gzip), and -f (file). This means it will create the archive, compress it, and what files should go inside. Then specify what you want the archive to be called and the files/directories to include.
+
+- Q1.2: how do you use tar to list the contents of an archive?
+	To list out the contents of an archive, use the commands -t (to list out contents), -v (to show file size, date, permission), and -f (what file to read).
+	
+- Q1.3: how do you use tar to extract the entire contents of an archive?
+	You can extract the entire contents of an archive by using -x (to extract), -z (to use gzip), -v (to show files as they unpack), and -f (the archive you are extracting from).	
+
+- Q1.4: by default, where do the files get extracted to?
+	The files go to your current working directory.	
+
+- Q1.5: what is the significance of the two extensions `.tar.gz`?
+	.tar is the archive format. By itself, it would have no compression and just be the packaging. .gz indicates the compression with gzip so that the archive takes up less space.
+
+- Q1.6: what is a 'tarbomb'? Why could extracting one be dangerous?
+    - Read this https://www.linfo.org/tarbomb.html and give a succinct answer.
+	A tarbomb is a tarball that seems to "explode" into the current directory or another directory with many items inside. This is because when it is 'untarred,' it does not go into a new directory specifically for the contents of the tarball.
+	Extracting one could be dangerous because if the directory that the tarbomb explodes into already has many contents, it will make navigating through the affected directory much more cumbersome. It will also be tedious to try and delete the contents from the tarbomb. 

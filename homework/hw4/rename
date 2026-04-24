@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# usage: ./rename <directory>
+
+start_with_date() {
+    local input="$1"
+
+    if [[ "$input" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}- ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+dir="$1"
+today="$(date +"%Y-%m-%d-")"
+
+for file in "$dir"/*; do
+    name="$(basename "$file")"
+
+    if start_with_date "$name"; then
+        continue
+    else
+        mv "$file" "$dir/$today$name"
+    fi
+done
+

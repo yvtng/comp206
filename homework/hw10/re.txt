@@ -1,0 +1,38 @@
+Challenge 2: reverse engineering/ buffer overflow attack
+
+    0.  Read the sources code vulerable.c .
+        Which part of the program is unsafe? Why?
+
+    1.  Run make to compile the vulnerable program.
+
+    2.  Run gdp ./vulnerable to load the program in the GNU debugger (gdb).
+
+    3.  The debugger is an interactive command-line program.
+
+            -   If you get a prompt "enable debuginfod for this session" just say no.
+            -   Run set disassembly-flavor intel to use Intel syntax for assembly code.
+            -   Run disassemble main to show the main assembly code for the main function.
+
+    4.  Compare the assembly code for main with the source code.
+
+            -   Which instructions correspond to initializing the variables admin and login_successful wiht zero?
+            -   Why is there no instruction that initializes buf?
+            -   The call instruction is used to call the function at the specified address.
+                GDB shows in angle-brackets the name of the function at that address.
+            -   What value is passed as input to the read_stdin_line function?
+                Express your answer as an offset of rbp.
+                (Refer back here to see what registers are used to pass arguments to functions.)
+
+    5.  Make a small textual diagram of the RAM in this function, indicating which ranges of bytes (as offsets of rbp) store the values of the admind, login_successful, and buf.
+
+    6.  Quit gdb.
+
+    7.  Run ./vulnerable. Following your above investigation, find an iput string triggering a buffer overflow to print FLAG: REDACTED.
+        Explain why your shosen string prints the flag.
+        Refer to your diagram in your explanation.
+
+    8.  Use your string in the web site ot get the real flag.
+        What is the flag?
+
+    9.  Describe a small change one could make to vulnerable.c, wihtout addressing the buffer overflow vulnerability, that would defeat the approach you used.
+                              

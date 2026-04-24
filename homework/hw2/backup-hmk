@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -u
+set -o pipefail
+
+mkdir -p backups || { echo "Error: could not create backups/"; exit 1; }
+
+timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
+
+archive="backups/homework-${timestamp}.tar.gz"
+
+
+tar -czf "$archive" homework
+status=$?
+
+if [ $status -ne 0 ]; then
+	echo "Error: tar failed (exit code $status)" >&2
+	exit $status
+fi
+
+echo "Created backup: $archive"
+
+
+
+
+

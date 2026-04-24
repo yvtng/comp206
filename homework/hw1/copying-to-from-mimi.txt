@@ -1,0 +1,19 @@
+    - Q1: What program you decided to use on your computer to do the copying
+      to/from Mimi?
+
+	I used the scp command from Windows PowerShell terminal.
+
+    - Q2: What did you do to install this program? (At most two sentences.)
+
+	I did not have to install a program; scp is included in the built-in 
+	OpenSSH tools on Windows.
+	
+    - Q3: In at most three sentences, describe how to use the program to copy a
+      file from your computer onto mimi
+
+	I ran the scp command and specified the local file path from my 
+	computer. 
+	I then put my mimi username with a colon and tilde to specify the 
+	destination path as such: ywang74@mimi.cs.mcgill.ca:~. 
+	After inputting my password, the file was copied to mimi in the 
+	directory I specified.

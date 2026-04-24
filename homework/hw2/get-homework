@@ -1,0 +1,80 @@
+#!/bin/bash
+set -u
+set -o pipefail
+
+usage() {
+    echo "Usage: "$0" N (example: get-homework 1)"
+}
+
+# Help flag
+if [ "${1-}" = "-h" ]; then
+    usage
+    exit 0
+fi
+
+# Exactly one argument
+if [ $# -ne 1 ]; then
+    echo "Error: expected exactly one argument" >&2
+    echo "Try: "$0" -h" >&2
+    exit 1
+fi
+
+# Must be digits
+case "$1" in
+    ''|*[!0-9]*)
+        echo "Error: argument must be a number (example: 1)" >&2
+        exit 1
+        ;;
+esac
+
+hw="hw$1"
+
+# Compute course root from script location
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+
+HOMEWORK_DIR="$ROOT_DIR/homework"
+TARGET_REL="homework/$hw"        # <-- IMPORTANT: relative destination
+TARGET_ABS="$HOMEWORK_DIR/$hw"   # for existence checks / rm
+
+mkdir -p "$HOMEWORK_DIR" || { echo "Error: could not create homework directory" >&2; exit 1; }
+
+# If target exists, prompt user (interactive) / auto-delete (non-interactive autograder)
+if [ -e "$TARGET_ABS" ]; then
+    if [ -t 0 ]; then
+        printf "Homework %s directory already exists. Overwrite? [y/n]" "$1"
+        read -r answer
+        case "$answer" in
+            y|Y)
+                rm -rf "$TARGET_ABS" || { echo "Error deleting directory" >&2; exit 1; }
+                ;;
+            *)
+                echo "$TARGET_ABS was not overwritten"
+                exit 0
+                ;;
+        esac
+    else
+        rm -rf "$TARGET_ABS" || { echo "Error deleting directory" >&2; exit 1; }
+    fi
+fi
+
+REPO_URL="winter2026-comp206:${hw}.git"
+
+tempFile="$(mktemp)"
+trap 'rm -f "$tempFile"' EXIT
+
+# IMPORTANT: run git clone from ROOT_DIR, destination = homework/hwN (relative)
+(
+    cd "$ROOT_DIR" || exit 1
+    git clone "$REPO_URL" "$TARGET_REL" >"$tempFile" 2>&1
+)
+status=$?
+
+if [ $status -ne 0 ]; then
+    echo "Error: git clone failed (exit code $status)" >&2
+    cat "$tempFile" >&2
+    exit $status
+fi
+
+exit 0
+

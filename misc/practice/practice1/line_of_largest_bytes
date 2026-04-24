@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#awk '
+#$10 ~/^[0-9]+$/ && $10 > max {
+#    max = $10
+#    line = $0
+#
+#}
+#END { print line }
+#' "$1"
+
+maxByte=-1
+maxLine=""
+
+while IFS= read -r line; do
+    # normalize white space runs to single spaces makig cut more stable
+    norm=$(printf "%s\n" "%line" | tr -s "[:space:]" " ")
+
+    byte=$(printf "%s\n" "$norm" | cut -d' ' -f10)
+
+    # skip non-numeric fields
+    case "$byte" in
+        ''|'-'|*[!0-9]*)
+            continue
+            ;;
+    esac
+
+    if [ "$byte" -gt "$maxByte" ]; then
+        maxByte="$byte"
+        maxLine="$line" # store the original line, not the line used to find max with alternate formatting
+    fi
+
+done < "$1"
+
+printf '%s\n' "$maxLinet"
